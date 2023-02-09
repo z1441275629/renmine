@@ -2,11 +2,11 @@ const { success, fail } = require("../utils/setResponse");
 const userModels = require("../models/user/index.js");
 const storeInstance = require("../store");
 
-// const { success, fail } = setResponse;
 const record = storeInstance.store;
 
 const c = {
-  async add({ request, response }) {
+  async add({ request, response, verifyParams }) {
+    console.log(verifyParams, "verifyParams");
     const { name, email, password } = request.body;
     const res = await userModels.add({ name, email, password });
     response.body = success(res, "添加成功");
@@ -47,7 +47,15 @@ const c = {
       data: res,
     };
   },
-  async register({ request, response }) {
+  async register(ctx) {
+    const { request, response, verifyParams } = ctx;
+    ctx.verifyParams({
+      name: { type: "string", required: true },
+      email: { type: "email", required: true },
+      password: { type: "string", required: true },
+      code: { type: "string", required: true },
+    });
+
     try {
       const { name, email, password, code } = request.body;
       if (!record.get(email)) {
