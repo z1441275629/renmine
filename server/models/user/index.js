@@ -93,7 +93,7 @@ const login = async ({ name, password, email }) => {
 
   let keywords = name || email;
   return await db.q(
-    `select * from users where (phone = '${keywords}' or email = '${keywords}') and password = '${password}'`
+    `select * from users where (name = '${keywords}' or email = '${keywords}') and password = '${password}'`
   );
 };
 

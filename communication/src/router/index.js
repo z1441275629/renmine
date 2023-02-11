@@ -1,67 +1,75 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Vue from "vue";
+import Router from "vue-router";
+import HelloWorld from "@/components/HelloWorld";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: "hash", // history
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
+      path: "/communication",
+      name: "communication",
+      component: () => import("@/views/communication/index.vue")
+      // meta: {
+      //   auth: true,
+      // },
+    },
+    {
+      path: "/",
+      name: "HelloWorld",
       component: HelloWorld,
       meta: {
-        auth: false,
+        auth: false
       }
     },
     {
-      path: '/regist',
-      name: 'regist',
-      component: () => import('@/views/user/regist.vue'),
+      path: "/regist",
+      name: "regist",
+      component: () => import("@/views/user/regist.vue"),
       meta: {
-        auth: false,
+        auth: false
       }
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/user/login.vue'),
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/user/login.vue"),
       meta: {
-        auth: false,
+        auth: false
       }
     },
     {
-      path: '/user',
-      name: 'user',
-      component: () => import('@/views/user/list.vue'),
+      path: "/user",
+      name: "user",
+      component: () => import("@/views/user/list.vue"),
       meta: {
-        auth: true,
+        auth: true
       }
     },
     {
-      path: '/demo',
-      name: 'demo',
-      component: () => import('@/views/demo.vue'),
+      path: "/demo",
+      name: "demo",
+      component: () => import("@/views/demo.vue"),
       meta: {
-        auth: true,
-      },
+        auth: true
+      }
     },
     {
-      path: '/score',
-      name: 'score',
+      path: "/score",
+      name: "score",
       alias: "/sc",
-      component: () => import('@/views/score/list.vue'),
+      component: () => import("@/views/score/list.vue"),
       meta: {
-        auth: true,
+        auth: true
       },
-      beforeEnter: (to, from,  next) => {
+      beforeEnter: (to, from, next) => {
         console.log(to);
         next();
       }
     },
     {
-      path: '/s',
+      path: "/s",
       // redirect: '/score',
       // redirect: {
       //   name: "score"
@@ -72,28 +80,28 @@ export default new Router({
         //   // path: "/score",
         //   name: "score"
         // };
-        if(to.query.jj){
-          return "score"
-        }else{
-          return "user"
+        if (to.query.jj) {
+          return "score";
+        } else {
+          return "user";
         }
       },
       meta: {
-        auth: true,
+        auth: true
       }
     },
     {
-      path: '/user-login',
-      name: 'userLogin',
-      component: () => import('@/views/user/login.vue'),
+      path: "/user-login",
+      name: "userLogin",
+      component: () => import("@/views/user/login.vue"),
       props: route => {
         return {
           from: "weixin"
-        }
+        };
       },
       meta: {
-        auth: false,
+        auth: false
       }
-    },
+    }
   ]
-})
+});

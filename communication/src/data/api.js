@@ -24,5 +24,9 @@ export default {
   },
   email: {
     sendCode: "/email/register"
+  },
+  communication: {
+    list: "/message/list",
+    add: "/message/add"
   }
 };

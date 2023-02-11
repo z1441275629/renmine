@@ -1,13 +1,13 @@
 const db = require("../db.js");
 
-const add = async ({ parentId, massage, userId, time }) => {
+const add = async ({ parentId, message, userId, time }) => {
   return await db.q(
     `insert into message (
-      parentId, massage, userId, time
+      parentId, message, userId, time
     ) values (
       ?,?,?,?
     )`,
-    [parentId, massage, userId, time]
+    [parentId, message, userId, time]
   );
 };
 
@@ -23,14 +23,14 @@ const list = async ({ parentId, offset, limit }) => {
     from message as m
     left join users as u
     on m.userId = u.id
-    where m.id = ${parentId}
+    ${isNull(parentId) ? `where m.parentId is null` : `where m.parentId = ${parentId}`}
   `;
   sql += ` limit ${limit} offset ${offset} `;
 
   let totalSql = `select 
             count(*) as total
-            from message
-            where m.id = ${parentId}
+            from message as m
+            ${isNull(parentId) ? `where m.parentId is null` : `where m.parentId = ${parentId}`}
         `;
 
   let list = await db.q(sql);

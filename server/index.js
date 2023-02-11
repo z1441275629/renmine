@@ -6,6 +6,7 @@ const messageRouter = require("./router/message.js");
 const bodyParser = require("koa-bodyparser"); //
 const parameter = require("koa-parameter"); // 参数校验
 const error = require("koa-json-error");
+const { checkToken } = require("./token/index");
 
 const app = new Koa();
 //app.use(ctx => {
@@ -37,6 +38,8 @@ app.use(async (ctx, next) => {
     await next();
   }
 });
+
+app.use(checkToken);
 
 // 参数校验
 app.use(parameter(app));

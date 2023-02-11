@@ -1,6 +1,7 @@
 const { success, fail } = require("../utils/setResponse");
 const userModels = require("../models/user/index.js");
 const storeInstance = require("../store");
+const { getToken } = require("../token");
 
 const record = storeInstance.store;
 
@@ -67,7 +68,6 @@ const c = {
         return;
       }
       const emailData = await userModels.isEmailExist(email);
-      console.log(emailData);
       if (emailData && emailData.length) {
         response.body = fail(null, "邮箱已被注册");
         return;
@@ -83,12 +83,18 @@ const c = {
       let { name, email, password } = request.body;
       let res = await userModels.login({ name, email, password });
       if (res && res.length) {
-        response.body = success(res, "登录成功");
+        const user = res[0];
+        const payload = {
+          user,
+          time: Date.now(),
+          timeout: 1000 * 60 * 60 * 24 * 7,
+        };
+        const token = await getToken(payload);
+        response.body = success({ token, username: user.name, id: user.Id }, "登录成功");
       } else {
-        response.body = fail(err, "账号或密码错误");
+        response.body = fail(null, "账号或密码错误", "4000");
       }
     } catch (err) {
-      console.log(err);
       response.body = fail(err, "服务器异常");
     }
   },

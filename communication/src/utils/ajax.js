@@ -2,30 +2,19 @@ import axios from "axios";
 import { Message, Loading } from "element-ui";
 // import { getToken, removeToken } from '@/utils/auth'
 import router from "../router";
+import store from "@/store";
 
 let LoadingInstance = null;
 // 创建axios实例
 const service = axios.create({
   timeout: 5000
-  // headers: {
-  //   token: "zds 666 header"
-  // }
 });
-// service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-// axios.get("serverconfig.json").then(({ data }) => {
-// 	service.defaults.baseURL = data.ApiUrl
-// 	localStorage.setItem('ApiUrl',result.data.ApiUrl)
-// 	localStorage.setItem('ip',result.data.ip)
-// 	// 这个设计可以挂在vue原型上
-// }).catch(e => {
-// 	service.defaults.baseURL = 'http://shop.jc-dev.cn'
-// 	service.defaults.baseURL = 'http://10.10.10.152:8888' // 姚凯
-// 	console.log(e);
-// })
 service.defaults.baseURL = "http://localhost:8888";
 // request拦截器
 service.interceptors.request.use(
   config => {
+    store.state.token &&
+      (config.headers["authorization"] = "Bearer " + store.state.token);
     if (!config.reserveNullField) {
       // 正常情况下清理空字段，不需要清理的加一个 reserveNullField: true
       // 删除空的参数 "",undefined,null,NaN
