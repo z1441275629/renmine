@@ -1,13 +1,13 @@
 const db = require("../db.js");
 
-const add = async ({ parentId, message, userId, time }) => {
+const add = async ({ parentId, title, message, userId, time }) => {
   return await db.q(
     `insert into message (
-      parentId, message, userId, time
+      parentId, title, message, userId, time
     ) values (
-      ?,?,?,?
+      ?,?,?,?,?
     )`,
-    [parentId, message, userId, time]
+    [parentId, title, message, userId, time]
   );
 };
 
@@ -17,15 +17,16 @@ function isNull(val) {
 }
 
 const list = async ({ parentId, offset, limit }) => {
+  console.log(parentId);
   let sql = `select 
-    m.message, m.parentId, m.id, unix_timestamp(m.time) time, 
+    m.message, m.parentId, m.id, m.time, m.title, 
     u.name username
     from message as m
     left join users as u
     on m.userId = u.id
     ${isNull(parentId) ? `where m.parentId is null` : `where m.parentId = ${parentId}`}
   `;
-  sql += ` limit ${limit} offset ${offset} `;
+  sql += ` order by time desc limit ${limit} offset ${offset} `;
 
   let totalSql = `select 
             count(*) as total
@@ -46,7 +47,21 @@ const list = async ({ parentId, offset, limit }) => {
   };
 };
 
+const detail = async ({ id }) => {
+  let sql = `select 
+    m.message, m.parentId, m.id, m.time, m.title, 
+    u.name username
+    from message as m
+    left join users as u
+    on m.userId = u.id
+    where m.Id = ${id}
+  `;
+
+  return await db.q(sql);
+};
+
 module.exports = {
   add,
   list,
+  detail,
 };

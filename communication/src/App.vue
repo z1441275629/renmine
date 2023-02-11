@@ -9,16 +9,16 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
 <style>
 .slide-enter-active {
-  transition: all .8s ease;
+  transition: all 0.8s ease;
 }
 .slide-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .slide-enter, .slide-leave-to
 /* .slide-fade-leave-active for below version 2.1.8 */ {
@@ -29,5 +29,10 @@ export default {
 /* .slide-fade-leave-active for below version 2.1.8 */ {
   transform: translateX(-100%);
   opacity: 0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
 }
 </style>

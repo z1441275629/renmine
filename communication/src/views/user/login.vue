@@ -1,7 +1,7 @@
 <template>
-  <div class="">
-    <div>来自：{{ from }}</div>
-    <el-form :model="form" :rules="rules">
+  <div class="login-page">
+    <el-form :model="form" :rules="rules" label-width="120px" ref="loginForm">
+      <h2>登录</h2>
       <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="form.email"
@@ -17,15 +17,12 @@
           type="password"
         ></el-input>
       </el-form-item>
-      <el-row>
-        <el-col>
-          <el-button @click.native="clickEmailLogin" type="primary"
-            >邮箱登录</el-button
-          >
-        </el-col>
-      </el-row>
+      <el-form-item label="" prop="">
+        <el-button @click.native="clickLogin" type="primary">登录</el-button>
+        <el-button @click.native="toRegister" type="primary">去注册</el-button>
+        <el-button @click.native="goBack">返回</el-button>
+      </el-form-item>
     </el-form>
-    {{ $store.state.userId }}
   </div>
 </template>
 
@@ -35,12 +32,12 @@ export default {
   data() {
     return {
       form: {
-        password: "",
-        email: ""
+        email: "",
+        password: ""
       },
       rules: {
-        password: "",
-        email: ""
+        email: [{ required: true, message: "请输入邮箱" }],
+        password: [{ required: true, message: "请输入密码" }]
       }
     };
   },
@@ -49,10 +46,17 @@ export default {
       console.log(this.form);
       this.phoneLogin(this.form);
     },
-    clickEmailLogin() {
-      this.emailLogin();
+    clickLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.login();
+        }
+      });
     },
-    emailLogin() {
+    toRegister() {
+      this.$router.push("/regist");
+    },
+    login() {
       this.$ajax({
         url: this.$api.user.login,
         method: "post",
@@ -63,21 +67,36 @@ export default {
       })
         .then(res => {
           console.log(res);
-          localStorage.setItem(token, res.data.token);
           const { token, username, id: userId } = res.data;
           this.$store.commit("setUserData", {
             token,
             username,
             userId
           });
+          this.$router.push(this.$route.query.redirect || "/communication");
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    goBack() {
+      history.back();
     }
   },
   created() {}
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+</style>

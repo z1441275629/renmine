@@ -10,10 +10,12 @@ export default new Router({
     {
       path: "/communication",
       name: "communication",
-      component: () => import("@/views/communication/index.vue")
-      // meta: {
-      //   auth: true,
-      // },
+      component: () => import("@/views/communication/list.vue")
+    },
+    {
+      path: "/communication/:id",
+      name: "communicationDetail",
+      component: () => import("@/views/communication/detail.vue")
     },
     {
       path: "/",

@@ -1,6 +1,5 @@
 const { success, fail } = require("../utils/setResponse");
 const messageModels = require("../models/message/index.js");
-const storeInstance = require("../store");
 const { getUserIdFromHeader } = require("../token");
 
 const messageController = {
@@ -12,18 +11,21 @@ const messageController = {
       },
     });
     const { request, response } = ctx;
-    const { parentId, message, userId } = request.body;
+    const { parentId, message, title } = request.body;
 
     const id = await getUserIdFromHeader(ctx);
-    console.log(id, "id");
 
-    const res = await messageModels.add({ parentId, message, userId: id, time: Date.now() });
+    const res = await messageModels.add({ parentId, message, userId: id, title, time: Date.now() });
     response.body = success(res, "添加成功");
   },
   async list({ request, response }) {
-    const { parentId = null, limit = 10, offset = 0 } = request.body;
+    const { parentId = null, limit = 10, offset = 0 } = request.query;
     const res = await messageModels.list({ parentId, limit, offset });
-    response.body = success(res, "查询成功");
+    let detail;
+    if (parentId) {
+      [detail] = await messageModels.detail({ id: parentId });
+    }
+    response.body = success({ ...res, detail }, "查询成功");
   },
 };
 
