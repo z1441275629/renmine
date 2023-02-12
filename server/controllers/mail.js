@@ -21,6 +21,7 @@ module.exports = {
 
       const code = Math.random().toString().slice(-4);
 
+      console.log(email, code);
       record.set(email, code);
 
       setTimeout(() => {
@@ -40,7 +41,7 @@ module.exports = {
             console.log(err);
             reject(err);
           } else {
-            console.log("发送成功", info);
+            // console.log("发送成功", info);
             resolve(info);
           }
         });

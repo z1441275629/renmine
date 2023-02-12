@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     token: "",
     username: "",
+    avatar: "",
     userId: 0
   },
   mutations: {
@@ -15,6 +16,7 @@ export default new Vuex.Store({
       state.token = payload.token;
       state.userId = payload.userId;
       state.username = payload.username;
+      state.avatar = payload.avatar;
     }
   }
 });

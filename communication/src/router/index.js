@@ -1,12 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
-import HelloWorld from "@/components/HelloWorld";
 
 Vue.use(Router);
 
 export default new Router({
-  mode: "hash", // history
+  mode: "history", // hash
   routes: [
+    {
+      path: "/",
+      name: "Home",
+      redirect: "/communication"
+    },
     {
       path: "/communication",
       name: "communication",
@@ -15,14 +19,9 @@ export default new Router({
     {
       path: "/communication/:id",
       name: "communicationDetail",
-      component: () => import("@/views/communication/detail.vue")
-    },
-    {
-      path: "/",
-      name: "HelloWorld",
-      component: HelloWorld,
+      component: () => import("@/views/communication/detail.vue"),
       meta: {
-        auth: false
+        auth: true
       }
     },
     {
@@ -40,70 +39,14 @@ export default new Router({
       meta: {
         auth: false
       }
-    },
-    {
-      path: "/user",
-      name: "user",
-      component: () => import("@/views/user/list.vue"),
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: "/demo",
-      name: "demo",
-      component: () => import("@/views/demo.vue"),
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: "/score",
-      name: "score",
-      alias: "/sc",
-      component: () => import("@/views/score/list.vue"),
-      meta: {
-        auth: true
-      },
-      beforeEnter: (to, from, next) => {
-        console.log(to);
-        next();
-      }
-    },
-    {
-      path: "/s",
-      // redirect: '/score',
-      // redirect: {
-      //   name: "score"
-      // },
-      redirect: to => {
-        // return "score";
-        // return {
-        //   // path: "/score",
-        //   name: "score"
-        // };
-        if (to.query.jj) {
-          return "score";
-        } else {
-          return "user";
-        }
-      },
-      meta: {
-        auth: true
-      }
-    },
-    {
-      path: "/user-login",
-      name: "userLogin",
-      component: () => import("@/views/user/login.vue"),
-      props: route => {
-        return {
-          from: "weixin"
-        };
-      },
-      meta: {
-        auth: false
-      }
     }
+    // {
+    //   path: "/user",
+    //   name: "user",
+    //   component: () => import("@/views/user/list.vue"),
+    //   meta: {
+    //     auth: true
+    //   }
+    // }
   ]
 });

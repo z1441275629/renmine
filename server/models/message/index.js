@@ -1,13 +1,13 @@
 const db = require("../db.js");
 
-const add = async ({ parentId, title, message, userId, time }) => {
+const add = async ({ parentId, level, replyId, type, title, message, userId, time }) => {
   return await db.q(
     `insert into message (
-      parentId, title, message, userId, time
+      parentId, replyId, type, level, title, message, userId, time
     ) values (
-      ?,?,?,?,?
+      ?,?,?,?,?,?,?,?
     )`,
-    [parentId, title, message, userId, time]
+    [parentId, replyId, type, level, title, message, userId, time]
   );
 };
 
@@ -16,17 +16,17 @@ function isNull(val) {
   return nullArr.includes(val);
 }
 
-const list = async ({ parentId, offset, limit }) => {
-  console.log(parentId);
+const list = async ({ parentId, type, offset, limit, order = "desc" }) => {
   let sql = `select 
-    m.message, m.parentId, m.id, m.time, m.title, 
-    u.name username
+    m.message, m.parentId, m.id, m.level, m.replyId, m.time, m.title, m.userId, m.type,
+    u.name username, u.avatar
     from message as m
     left join users as u
     on m.userId = u.id
     ${isNull(parentId) ? `where m.parentId is null` : `where m.parentId = ${parentId}`}
+    ${type ? ` and type = ${type}` : ""}
   `;
-  sql += ` order by time desc limit ${limit} offset ${offset} `;
+  sql += ` order by time ${order} limit ${limit} offset ${offset} `;
 
   let totalSql = `select 
             count(*) as total
@@ -48,9 +48,30 @@ const list = async ({ parentId, offset, limit }) => {
 };
 
 const detail = async ({ id }) => {
-  let sql = `select 
-    m.message, m.parentId, m.id, m.time, m.title, 
-    u.name username
+  // let sql = `select
+  //   m.message, m.parentId, m.id, m.time, m.title,
+  //   u.name username
+  //   from message as m
+  //   left join users as u
+  //   on m.userId = u.id
+  //   where m.Id = ${id}
+  // `;
+
+  // create procedure getChildren(in parentId int)
+
+  // create procedure getChildren
+  // begin
+  //   select m.message, m.parentId, m.id, m.time, m.title,
+  //   u.name username
+  //   from message as m
+  //   left join users as u
+  //   on m.userId = u.id
+  //   where m.Id = ${id}
+  // end
+  let sql = `
+    select 
+      m.message, m.parentId, m.id, m.level, m.replyId, m.time, m.title, m.userId, m.type,
+      u.name username, u.avatar
     from message as m
     left join users as u
     on m.userId = u.id

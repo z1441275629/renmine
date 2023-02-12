@@ -1,6 +1,12 @@
 <template>
   <div class="login-page">
-    <el-form :model="form" :rules="rules" label-width="120px" ref="loginForm">
+    <el-form
+      class="login-form"
+      :model="form"
+      :rules="rules"
+      label-width="60px"
+      ref="loginForm"
+    >
       <h2>登录</h2>
       <el-form-item label="邮箱" prop="email">
         <el-input
@@ -13,7 +19,7 @@
         <el-input
           v-model="form.password"
           clearable
-          placeholder=""
+          placeholder="请输入密码"
           type="password"
         ></el-input>
       </el-form-item>
@@ -54,7 +60,7 @@ export default {
       });
     },
     toRegister() {
-      this.$router.push("/regist");
+      this.$router.push({ name: "regist", query: this.$route.query });
     },
     login() {
       this.$ajax({
@@ -66,12 +72,12 @@ export default {
         }
       })
         .then(res => {
-          console.log(res);
-          const { token, username, id: userId } = res.data;
+          const { token, username, id: userId, avatar } = res.data;
           this.$store.commit("setUserData", {
             token,
             username,
-            userId
+            userId,
+            avatar
           });
           this.$router.push(this.$route.query.redirect || "/communication");
         })
@@ -94,6 +100,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.login-form {
+  box-shadow: 0 0 5px 5px #ccc;
+  border-radius: 12px;
+  padding: 20px;
 }
 h2 {
   text-align: center;

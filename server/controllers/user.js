@@ -55,10 +55,11 @@ const c = {
       email: { type: "email", required: true },
       password: { type: "string", required: true },
       code: { type: "string", required: true },
+      avatar: { type: "string", required: true },
     });
 
     try {
-      const { name, email, password, code } = request.body;
+      const { name, email, password, code, avatar } = request.body;
       if (!record.get(email)) {
         response.body = fail(null, "请先获取验证码");
         return;
@@ -72,7 +73,7 @@ const c = {
         response.body = fail(null, "邮箱已被注册");
         return;
       }
-      const res = await userModels.add({ name, email, password });
+      const res = await userModels.add({ name, email, password, avatar });
       response.body = success(res, "注册成功");
     } catch (err) {
       response.body = fail(err, "注册失败");
@@ -90,7 +91,7 @@ const c = {
           timeout: 1000 * 60 * 60 * 24 * 7,
         };
         const token = await getToken(payload);
-        response.body = success({ token, username: user.name, id: user.Id }, "登录成功");
+        response.body = success({ token, username: user.name, id: user.Id, avatar: user.avatar }, "登录成功");
       } else {
         response.body = fail(null, "账号或密码错误", "4000");
       }

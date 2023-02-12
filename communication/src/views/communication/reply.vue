@@ -2,37 +2,15 @@
   <div class="communication">
     <el-dialog :visible.sync="visible" :title="title" center>
       <el-form :model="form" :rules="rules" label-width="80px" ref="addForm">
-        <el-form-item label="标题" prop="title">
-          <el-input
-            v-model="form.title"
-            clearable
-            placeholder="请输入简短的标题"
-          ></el-input>
-        </el-form-item>
         <el-form-item label="内容" prop="message">
           <el-input
             v-model="form.message"
             clearable
-            placeholder="请输入要发表的内容"
+            placeholder="请输入回复内容"
           ></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-select
-            :style="{ width: '100%' }"
-            v-model="form.type"
-            clearable
-            placeholder="请选择类型"
-          >
-            <el-option
-              v-for="item in typeList"
-              :key="item.value"
-              :value="item.value"
-              :label="item.label"
-            ></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="" prop="">
-          <el-button @click="clickAddMessage" type="primary">发布</el-button>
+          <el-button @click="clickAddMessage" type="primary">回复</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -43,7 +21,9 @@
 export default {
   props: {
     showDialog: Boolean,
-    title: String
+    title: String,
+    parentId: Number,
+    replyId: Number
   },
   computed: {
     visible: {
@@ -58,14 +38,11 @@ export default {
   data() {
     return {
       form: {
-        title: "",
         message: ""
       },
       rules: {
-        title: [{ required: true, message: "请输入标题" }],
         message: [{ required: true, message: "请输入内容" }]
-      },
-      typeList: [{ label: "求助", value: 1 }]
+      }
     };
   },
   methods: {
@@ -80,9 +57,9 @@ export default {
     async addMessage() {
       const params = {
         message: this.form.message,
-        title: this.form.title,
-        type: this.form.type,
-        level: 1 // 发表
+        level: 3, // 回复
+        parentId: this.parentId,
+        replyId: this.replyId
       };
       const data = await this.$ajax({
         url: this.$api.communication.add,

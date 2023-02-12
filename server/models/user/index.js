@@ -62,8 +62,13 @@ const list = async ({ stage, grade, classId, perPageCount, curPage }) => {
 //}
 
 // 添加用户
-const add = async ({ name, email, password }) => {
-  return await db.q("insert into users (name, email, password) values (?,?,?)", [name, email, password]);
+const add = async ({ name, email, password, avatar }) => {
+  return await db.q("insert into users (name, email, password, avatar) values (?,?,?,?)", [
+    name,
+    email,
+    password,
+    avatar,
+  ]);
 };
 
 // 删除用户
@@ -93,7 +98,7 @@ const login = async ({ name, password, email }) => {
 
   let keywords = name || email;
   return await db.q(
-    `select * from users where (name = '${keywords}' or email = '${keywords}') and password = '${password}'`
+    `select Id, email, name, avatar from users where (name = '${keywords}' or email = '${keywords}') and password = '${password}'`
   );
 };
 

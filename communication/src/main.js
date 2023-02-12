@@ -47,13 +47,16 @@ Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
     // 需要权限
-    if (localStorage.getItem("token")) {
+    if (store.state.token) {
       // 具备权限
       next();
     } else {
       // 不具备权限
       next({
-        name: "login"
+        name: "login",
+        query: {
+          redirect: to.fullPath
+        }
       });
     }
   } else {
