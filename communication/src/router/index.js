@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import layout from "@/layout/basic";
 
 Vue.use(Router);
 
@@ -8,22 +9,31 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Home",
-      redirect: "/communication"
+      name: "layout",
+      redirect: "/index",
+      component: layout,
+      children: [
+        {
+          path: "/index",
+          name: "index",
+          component: () => import("@/views/index.vue")
+        },
+        {
+          path: "/communication",
+          name: "communication",
+          component: () => import("@/views/communication/list.vue")
+        },
+        {
+          path: "/communication/:id",
+          name: "communicationDetail",
+          component: () => import("@/views/communication/detail.vue"),
+          meta: {
+            auth: true
+          }
+        }
+      ]
     },
-    {
-      path: "/communication",
-      name: "communication",
-      component: () => import("@/views/communication/list.vue")
-    },
-    {
-      path: "/communication/:id",
-      name: "communicationDetail",
-      component: () => import("@/views/communication/detail.vue"),
-      meta: {
-        auth: true
-      }
-    },
+
     {
       path: "/regist",
       name: "regist",

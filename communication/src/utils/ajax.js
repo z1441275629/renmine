@@ -7,9 +7,10 @@ import store from "@/store";
 let LoadingInstance = null;
 // 创建axios实例
 const service = axios.create({
-  timeout: 5000
+  timeout: 30 * 1000
 });
-service.defaults.baseURL = "http://localhost:8888";
+service.defaults.baseURL =
+  process.env.NODE_ENV === "development" ? "http://localhost:8888" : "/api";
 // request拦截器
 service.interceptors.request.use(
   config => {

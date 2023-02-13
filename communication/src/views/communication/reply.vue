@@ -1,5 +1,5 @@
 <template>
-  <div class="communication">
+  <div class="communication-reply">
     <el-dialog :visible.sync="visible" :title="title" center>
       <el-form :model="form" :rules="rules" label-width="80px" ref="addForm">
         <el-form-item label="内容" prop="message">

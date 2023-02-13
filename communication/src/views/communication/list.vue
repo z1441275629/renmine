@@ -93,6 +93,16 @@ export default {
   },
   methods: {
     clickAddMessage() {
+      if (!this.$store.state.token) {
+        this.$message.info("登录后发布");
+        this.$router.push({
+          name: "login",
+          query: {
+            redirect: this.$route.fullPath
+          }
+        });
+        return;
+      }
       this.showAddDialog = true;
     },
     reply(item) {
@@ -153,6 +163,7 @@ export default {
 .communication {
   background: #ebebeb;
   padding: 20px 0;
+  min-height: calc(100vh - 80px);
   /* background: #ccc; */
 }
 .list {

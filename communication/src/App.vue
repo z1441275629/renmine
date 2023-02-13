@@ -54,4 +54,15 @@ export default {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-size: 16px;
+  min-width: 1200px;
+  background: no-repeat center / 112%;
+}
 </style>
