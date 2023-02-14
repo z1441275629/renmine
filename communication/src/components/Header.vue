@@ -60,11 +60,12 @@ export default {
       this.$message.info("即将到来 \r\n coming soon");
     },
     clickNav(nav) {
-      if (nav.path) {
-        this.$router.push(nav.path);
-      } else {
-        this.tip();
-      }
+      // if (nav.path) {
+      //   this.$router.push(nav.path);
+      // } else {
+      //   this.tip();
+      // }
+      this.tip();
     }
   }
 };

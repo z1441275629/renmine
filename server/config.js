@@ -3,20 +3,20 @@ module.exports = {
   //viewDir:path.resolve('./views'),
   //staticDir:path.resolve('./public'),
   appPort: 8888,
-  // dbConfig: {
-  //   connectionLimit: 10,
-  //   host: "localhost",
-  //   user: "root",
-  //   password: "root",
-  //   database: "renmine", // 得胜
-  // },
   dbConfig: {
     connectionLimit: 10,
-    host: "94.74.123.45",
+    host: "localhost",
     user: "root",
-    password: "zds123",
+    password: "root",
     database: "renmine", // 得胜
   },
+  // dbConfig: {
+  //   connectionLimit: 10,
+  //   host: "94.74.123.45",
+  //   user: "root",
+  //   password: "zds123",
+  //   database: "renmine", // 得胜
+  // },
   successCode: "0000",
   successDesc: "成功",
 

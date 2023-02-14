@@ -8,30 +8,35 @@
       言论
     </div>
     <div class="list">
-      <el-tabs v-model="type">
+      <!-- <el-tabs v-model="type">
         <el-tab-pane
           v-for="item in tabList"
           :key="item.value"
           :label="item.label"
           :name="item.value"
         ></el-tab-pane>
-      </el-tabs>
+      </el-tabs> -->
       <div
         class="item"
         v-for="item in list"
         :key="item.id"
         @click="toDetail(item)"
       >
+        <div class="comment-count">
+          <img src="@/assets/comment.svg" class="comment-icon" alt="" />
+          {{ item.children.length }}
+        </div>
+        <div class="main-info">
+          <div class="title ellipsis">{{ item.title }}</div>
+          <div class="content ellipsis3">{{ item.message }}</div>
+        </div>
         <div class="basic-info">
-          <avatar :avatar="item.avatar" :size="40" :name="item.username" />
           <div class="author-time">
             <div class="author">{{ item.username }}</div>
             <div class="time">{{ item.time | dateTime }}</div>
           </div>
-          <div class="comment-count">评论&nbsp;{{ item.children.length }}</div>
+          <avatar :avatar="item.avatar" :size="40" :name="item.username" />
         </div>
-        <div class="title ellipsis">{{ item.title }}</div>
-        <div class="content ellipsis3">{{ item.message }}</div>
 
         <!-- <div class="reply-list">
           <div
@@ -161,30 +166,54 @@ export default {
 
 <style scoped>
 .communication {
-  background: #ebebeb;
+  /* background: #ebebeb; */
   padding: 20px 0;
   min-height: calc(100vh - 80px);
   /* background: #ccc; */
 }
 .list {
-  max-width: 1200px;
+  width: 800px;
   margin: 0 auto;
 }
 .list .item {
-  /* border: 1px solid #ccc; */
-  margin-bottom: 20px;
-  padding: 1em;
-  box-shadow: 0 0 3px 3px #fff;
-  border-radius: 12px;
-  background: #fff;
+  border-bottom: 1px solid #ccc;
+  /* margin-bottom: 20px; */
+  padding: 1em 0;
+  /* box-shadow: 0 0 3px 3px #fff; */
+  /* border-radius: 12px; */
+  /* background: #fff; */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  position: relative;
+}
+.comment-count {
+  width: 30px;
+  flex-shrink: 0;
+  position: absolute;
+  left: -50px;
+  top: 31px;
+  display: flex;
+  align-items: center;
+}
+.comment-icon {
+  width: 16px;
+  margin-right: 0.5em;
+}
+.main-info {
+  flex: 1;
+  overflow: hidden;
 }
 /* .item:not(:last-of-type) {
   border-bottom: 1px solid #ccc;
 } */
 .basic-info {
+  flex-shrink: 0;
   display: flex;
+  /* justify-content: flex-end; */
   align-items: center;
+  padding-left: 20px;
 }
 >>> .avatar {
   flex-shrink: 0;
@@ -192,21 +221,30 @@ export default {
 .author-time {
   flex: 1;
   padding-left: 1em;
+  text-align: right;
+  padding-right: 1em;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.author {
+/* .author {
   margin-right: 1em;
-}
+} */
 .time {
   color: #666;
+  font-size: 12px;
 }
 .title {
   color: #000;
   font-weight: bold;
-  line-height: 1.8;
+  font-size: 18px;
+  line-height: 1.4;
   margin: 12px 0;
 }
 .content {
   color: #666;
+  font-size: 14px;
 }
 .reply-list {
   padding-left: 1em;
@@ -228,5 +266,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.add-message:hover {
+  background-color: #ddd;
 }
 </style>

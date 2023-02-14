@@ -68,7 +68,7 @@ service.interceptors.response.use(
     const res = response.data;
     if (res.code != "0000") {
       Message({
-        message: res.msg,
+        message: res.message,
         type: "error",
         duration: 1.5 * 1000
       });
@@ -85,7 +85,7 @@ service.interceptors.response.use(
     }
     console.log("%O", error);
     let status = error.request && error.request.status;
-    let msg;
+    let msg = error.message;
     switch (status) {
       case 500:
         msg = "服务器错误";

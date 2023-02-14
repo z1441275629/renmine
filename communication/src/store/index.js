@@ -9,7 +9,9 @@ export default new Vuex.Store({
     token: "",
     username: "",
     avatar: "",
-    userId: 0
+    userId: 0,
+    showLogin: false,
+    showRegister: false
   },
   mutations: {
     setUserData(state, payload) {
@@ -17,6 +19,19 @@ export default new Vuex.Store({
       state.userId = payload.userId;
       state.username = payload.username;
       state.avatar = payload.avatar;
+    },
+    setShowLogin(state, val) {
+      console.log(val);
+      state.showLogin = val;
+    },
+    setShowRegister(state, val) {
+      state.showRegister = val;
+    },
+    logout(state) {
+      state.token = "";
+      state.userId = 0;
+      state.username = "";
+      state.avatar = "";
     }
   }
 });
