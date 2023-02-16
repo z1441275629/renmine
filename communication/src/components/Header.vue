@@ -29,7 +29,7 @@ export default {
         {
           cn: "交 流 论 坛",
           en: "Communication Forum",
-          path: "/communication"
+          path: "/communicationList"
         },
         {
           cn: "心 理 辅 导",
@@ -85,7 +85,7 @@ export default {
   justify-content: center;
   font-size: 20px;
   box-shadow: 0 3px 3px rgba(255, 255, 255, 0.3);
-  /* color: #fff; */
+  color: #fff;
 }
 
 .nav .level1 {

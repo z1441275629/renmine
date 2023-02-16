@@ -1,13 +1,16 @@
 <template>
-  <el-dialog title="登录" :visible.sync="show" :append-to-body="true">
+  <!-- <el-dialog title="登录" :visible.sync="show" :append-to-body="true"> -->
+  <div class="masker" v-show="show" @click="show = false">
     <el-form
       class="login-form"
       :model="form"
       :rules="rules"
       label-width="60px"
       ref="loginForm"
+      @click.native.stop=""
     >
-      <!-- <h2></h2> -->
+      <i class="iconfont icon-guanbi close" @click="show = false"></i>
+      <h2>登录</h2>
       <el-form-item label="邮箱" prop="email">
         <el-input
           v-model="form.email"
@@ -29,7 +32,8 @@
         <!-- <el-button @click.native="goBack">返回</el-button> -->
       </el-form-item>
     </el-form>
-  </el-dialog>
+  </div>
+  <!-- </el-dialog> -->
 </template>
 
 <script>
@@ -91,8 +95,10 @@ export default {
             userId,
             avatar
           });
-          // this.$router.push(this.$route.query.redirect || "/communication");
           this.show = false;
+          this.$store.state.redirect &&
+            this.$router.push(this.$store.state.redirect);
+          this.$store.commit("setRedirect", null);
         })
         .catch(err => {
           console.log(err);
@@ -102,23 +108,43 @@ export default {
       history.back();
     }
   },
-  created() {}
+  created() {},
+  watch: {
+    show(n) {
+      if (n) {
+        this.$refs.loginForm.resetFields();
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-/* .login-page {
+.masker {
   width: 100vw;
   height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-} */
-/* .login-form {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.login-form {
+  background-color: #fff;
   box-shadow: 0 0 5px 5px #ccc;
   border-radius: 12px;
-  padding: 20px;
-} */
+  padding: 20px 20px 0;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
 h2 {
   text-align: center;
   margin-bottom: 10px;

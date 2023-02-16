@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import layout from "@/layout/basic";
+import AllNavLayout from "@/layout/AllNav";
 
 Vue.use(Router);
 
@@ -9,17 +10,26 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "layout",
+      name: "layoutAllNav",
       redirect: "/index",
-      component: layout,
+      component: AllNavLayout,
       children: [
         {
           path: "/index",
           name: "index",
           component: () => import("@/views/index.vue")
-        },
+        }
+      ]
+    },
+
+    {
+      path: "/communication",
+      name: "layout",
+      redirect: "/communicationList",
+      component: layout,
+      children: [
         {
-          path: "/communication",
+          path: "/communicationList",
           name: "communication",
           component: () => import("@/views/communication/list.vue")
         },

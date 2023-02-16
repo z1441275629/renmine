@@ -23,7 +23,7 @@
         @click="toDetail(item)"
       >
         <div class="comment-count">
-          <img src="@/assets/comment.svg" class="comment-icon" alt="" />
+          <!-- <img src="@/assets/comment.svg" class="comment-icon" alt="" /> -->
           {{ item.children.length }}
         </div>
         <div class="main-info">
@@ -100,12 +100,13 @@ export default {
     clickAddMessage() {
       if (!this.$store.state.token) {
         this.$message.info("登录后发布");
-        this.$router.push({
-          name: "login",
-          query: {
-            redirect: this.$route.fullPath
-          }
-        });
+        this.$store.commit("setShowLogin", true);
+        // this.$router.push({
+        //   name: "login",
+        //   query: {
+        //     redirect: this.$route.fullPath
+        //   }
+        // });
         return;
       }
       this.showAddDialog = true;
@@ -117,18 +118,28 @@ export default {
     toDetail(item) {
       if (!this.$store.state.token) {
         this.$message.info("登录后可查看详情或评论");
-        this.$router.push({
-          name: "login",
-          query: {
-            redirect: this.$router.resolve({
-              name: "communicationDetail",
-              params: {
-                id: item.id
-              }
-            }).href
-          }
-        });
-        return;
+        // this.$store.commit(
+        //   "setRedirect",
+        //   this.$router.resolve({
+        //     name: "communicationDetail",
+        //     params: {
+        //       id: item.id
+        //     }
+        //   }).route.fullPath
+        // );
+        // this.$store.commit("setShowLogin", true);
+        // this.$router.push({
+        //   name: "login",
+        //   query: {
+        //     redirect: this.$router.resolve({
+        //       name: "communicationDetail",
+        //       params: {
+        //         id: item.id
+        //       }
+        //     }).href
+        //   }
+        // });
+        // return;
       }
       this.$router.push({
         name: "communicationDetail",
@@ -144,7 +155,6 @@ export default {
         params: { type: this.type === "all" ? "" : this.type }
       });
       this.list = data.data.list;
-      // this.
     }
   },
   created() {
@@ -189,13 +199,20 @@ export default {
   position: relative;
 }
 .comment-count {
-  width: 30px;
-  flex-shrink: 0;
   position: absolute;
-  left: -50px;
-  top: 31px;
-  display: flex;
-  align-items: center;
+  left: -66px;
+  top: 28px;
+
+  width: 50px;
+  height: 30px;
+  line-height: 26px;
+  margin: auto;
+  display: block;
+  color: #333;
+  font-size: 12px;
+  text-align: center;
+  background: url("http://tb2.bdstatic.com/tb/static-hottopic/img/f_reply_bg_89030dc.png")
+    no-repeat;
 }
 .comment-icon {
   width: 16px;
@@ -268,6 +285,6 @@ export default {
   justify-content: center;
 }
 .add-message:hover {
-  background-color: #ddd;
+  background-color: #eee;
 }
 </style>

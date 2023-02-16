@@ -52,12 +52,15 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       // 不具备权限
-      next({
-        name: "login",
-        query: {
-          redirect: to.fullPath
-        }
-      });
+      // next({
+      //   name: "login",
+      //   query: {
+      //     redirect: to.fullPath
+      //   }
+      // });
+      store.commit("setRedirect", to.fullPath);
+      store.commit("setShowLogin", true);
+      next(false);
     }
   } else {
     // 不需要权限

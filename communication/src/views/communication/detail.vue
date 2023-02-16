@@ -176,13 +176,13 @@ export default {
 
 <style scoped>
 .communication-detail {
-  background: #ebebeb;
+  /* background: #ebebeb; */
   padding: 20px 0;
 }
 .main {
-  max-width: 1200px;
+  width: 800px;
   margin: 0 auto;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 20px;
 }
 .detail {

@@ -1,5 +1,6 @@
 <template>
-  <el-dialog title="注册账号" :visible.sync="show" :append-to-body="true">
+  <div class="masker" v-show="show" @click="show = false">
+    <!-- <el-dialog title="注册账号" :visible.sync="show" :append-to-body="true"> -->
     <el-form
       class="register-form"
       label-width="80px"
@@ -7,7 +8,8 @@
       :rules="rules"
       ref="registerForm"
     >
-      <!-- <h2>注册账号</h2> -->
+      <i class="iconfont icon-guanbi close" @click="show = false"></i>
+      <h2>注册账号</h2>
       <el-form-item label="用户名" prop="name">
         <el-input
           v-model="form.name"
@@ -78,7 +80,8 @@
         <!-- <el-button @click.native="goBack">返回</el-button> -->
       </el-form-item>
     </el-form>
-  </el-dialog>
+    <!-- </el-dialog> -->
+  </div>
 </template>
 
 <script>
@@ -207,23 +210,47 @@ export default {
         }
       });
     }
+  },
+  watch: {
+    show(n) {
+      if (n) {
+        this.$refs.loginForm.resetFields();
+      }
+    }
   }
 };
 </script>
 
 <style scoped>
-/* .register-page {
+.masker {
   width: 100vw;
   height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-} */
-/* .register-form {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.register-form {
+  background-color: #fff;
   box-shadow: 0 0 5px 5px #ccc;
   border-radius: 12px;
-  padding: 20px;
-} */
+  padding: 20px 20px 0;
+  position: relative;
+}
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
 h2 {
   text-align: center;
   margin-bottom: 10px;

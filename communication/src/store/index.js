@@ -11,7 +11,8 @@ export default new Vuex.Store({
     avatar: "",
     userId: 0,
     showLogin: false,
-    showRegister: false
+    showRegister: false,
+    redirect: null // 登录后前往地址
   },
   mutations: {
     setUserData(state, payload) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
       state.userId = 0;
       state.username = "";
       state.avatar = "";
+    },
+    setRedirect(state, payload) {
+      state.redirect = payload;
     }
   }
 });

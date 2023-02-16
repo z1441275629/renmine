@@ -16,7 +16,7 @@
             placeholder="请输入要发表的内容"
           ></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="type">
+        <!-- <el-form-item label="类型" prop="type">
           <el-select
             :style="{ width: '100%' }"
             v-model="form.type"
@@ -30,7 +30,7 @@
               :label="item.label"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="" prop="">
           <el-button @click="clickAddMessage" type="primary">发布</el-button>
         </el-form-item>
