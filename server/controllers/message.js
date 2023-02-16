@@ -35,15 +35,19 @@ const messageController = {
     const { parentId = null, type = null, limit = 10, offset = 0 } = request.query;
     const res = await messageModels.list({ parentId, type, limit, offset, order: parentId ? "asc" : "desc" });
     for (let item of res.list) {
-      item.typeName = messageTypeMap[item.type] || null;
-      const childRes = await messageModels.list({ parentId: item.id, limit: 100, offset: 0, order: "asc" });
-      item.children = childRes.list;
-      for (let replyItem of item.children) {
-        if (replyItem.replyId) {
-          const replyData = await messageModels.detail({ id: replyItem.parentId });
-          replyItem.replyUser = replyData[0] && replyData[0].username;
-        } else {
-          replyItem.replyUser = "";
+      if (parentId === null) {
+        item.commentCount = await messageModels.getCommentCount({ parentId: item.id });
+      } else {
+        item.typeName = messageTypeMap[item.type] || null;
+        const childRes = await messageModels.list({ parentId: item.id, limit: 100, offset: 0, order: "asc" });
+        item.children = childRes.list;
+        for (let replyItem of item.children) {
+          if (replyItem.replyId) {
+            const replyData = await messageModels.detail({ id: replyItem.parentId });
+            replyItem.replyUser = replyData[0] && replyData[0].username;
+          } else {
+            replyItem.replyUser = "";
+          }
         }
       }
     }

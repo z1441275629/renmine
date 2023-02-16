@@ -47,6 +47,16 @@ const list = async ({ parentId, type, offset, limit, order = "desc" }) => {
   };
 };
 
+const getCommentCount = async ({ parentId }) => {
+  let totalSql = `select 
+  count(*) as total
+  from message as m
+  ${isNull(parentId) ? `where m.parentId is null` : `where m.parentId = ${parentId}`}
+`;
+  const count = await db.q(totalSql);
+  return count[0].total;
+};
+
 const detail = async ({ id }) => {
   // let sql = `select
   //   m.message, m.parentId, m.id, m.time, m.title,
@@ -85,4 +95,5 @@ module.exports = {
   add,
   list,
   detail,
+  getCommentCount,
 };

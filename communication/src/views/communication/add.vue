@@ -6,11 +6,13 @@
           <el-input
             v-model="form.title"
             clearable
+            :maxlength="100"
             placeholder="请输入简短的标题"
           ></el-input>
         </el-form-item>
         <el-form-item label="内容" prop="message">
           <el-input
+            type="textarea"
             v-model="form.message"
             clearable
             placeholder="请输入要发表的内容"

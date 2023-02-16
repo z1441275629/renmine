@@ -24,7 +24,7 @@
       >
         <div class="comment-count">
           <!-- <img src="@/assets/comment.svg" class="comment-icon" alt="" /> -->
-          {{ item.children.length }}
+          {{ item.commentCount }}
         </div>
         <div class="main-info">
           <div class="title ellipsis">{{ item.title }}</div>
@@ -51,6 +51,18 @@
             <div class="content">{{ reply.message }}</div>
           </div>
         </div> -->
+      </div>
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 50, 100]"
+          :page-size="pageSize"
+          layout="prev, pager, next, total, sizes, jumper"
+          :total="total"
+        >
+        </el-pagination>
       </div>
     </div>
 
@@ -93,10 +105,22 @@ export default {
       tabList: [
         { label: "全部", value: "all" },
         { label: "求助", value: "1" }
-      ]
+      ],
+      currentPage: 1,
+      pageSize: 10,
+      total: 1
     };
   },
   methods: {
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.currentPage = 1;
+      this.getMessageList();
+    },
+    handleCurrentChange(current) {
+      this.currentPage = current;
+      this.getMessageList();
+    },
     clickAddMessage() {
       if (!this.$store.state.token) {
         this.$message.info("登录后发布");
@@ -152,9 +176,15 @@ export default {
       const data = await this.$ajax({
         url: this.$api.communication.list,
         method: "get",
-        params: { type: this.type === "all" ? "" : this.type }
+        params: {
+          type: this.type === "all" ? "" : this.type,
+          offset: (this.currentPage - 1) * this.pageSize,
+          limit: this.pageSize
+        }
       });
-      this.list = data.data.list;
+      const { list, total } = data.data;
+      this.list = list;
+      this.total = total;
     }
   },
   created() {
@@ -286,5 +316,8 @@ export default {
 }
 .add-message:hover {
   background-color: #eee;
+}
+.pagination {
+  padding: 10px 0;
 }
 </style>
