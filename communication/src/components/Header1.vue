@@ -29,8 +29,8 @@
               class="avatar"
             ></avatar> -->
             <!-- <el-button type="text" @click="logout">退出登录</el-button> -->
-            <div class="level1-nav">
-              <i class="iconfont btn icon-dengchu" @click="logout"></i>
+            <div class="level1-nav" @click="logout">
+              <i class="iconfont btn icon-dengchu"></i>
               <span>{{ $store.state.username }}</span>
             </div>
           </template>

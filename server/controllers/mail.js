@@ -5,11 +5,11 @@ const storeInstance = require("../store");
 // smtps://user%40gmail.com:pass@smtp.gmail.com
 // const transport = nodeMailer.createTransport("SMTP", {
 const transport = nodeMailer.createTransport({
-  host: config.host,
+  // host: config.host,
   // post: config.post,
   // secure: config.secure,
   auth: config.auth,
-  service: "QQ",
+  service: config.service,
 });
 
 const record = storeInstance.store;

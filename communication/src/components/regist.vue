@@ -7,6 +7,7 @@
       :model="form"
       :rules="rules"
       ref="registerForm"
+      @click.native.stop=""
     >
       <i class="iconfont icon-guanbi close" @click="show = false"></i>
       <h2>注册账号</h2>
@@ -214,7 +215,7 @@ export default {
   watch: {
     show(n) {
       if (n) {
-        this.$refs.loginForm.resetFields();
+        this.$refs.registerForm.resetFields();
       }
     }
   }

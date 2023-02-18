@@ -1,26 +1,28 @@
 <template>
   <div class="communication-detail">
+    <div class="sticky">
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 50, 100]"
+          :page-size="pageSize"
+          layout="prev, pager, next, total, sizes, jumper"
+          :total="total"
+        >
+        </el-pagination>
+        <a class="to-list-btn" href="" @click.prevent="toList"
+          >&lt;&lt;返回列表</a
+        >
+      </div>
+      <div class="title">
+        <span class="message-title">{{ detail.title }}</span>
+        <el-button type="text" @click.native="toAddReply">回复</el-button>
+      </div>
+    </div>
     <div class="main">
       <div class="detail">
-        <div class="pagination">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 50, 100]"
-            :page-size="pageSize"
-            layout="prev, pager, next, total, sizes, jumper"
-            :total="total"
-          >
-          </el-pagination>
-          <a class="to-list-btn" href="" @click.prevent="toList"
-            >&lt;&lt;返回列表</a
-          >
-        </div>
-        <div class="title">
-          <span class="message-title">{{ detail.title }}</span>
-          <el-button type="text" @click.native="toAddReply">回复</el-button>
-        </div>
         <div class="owner comment-item">
           <div class="basic-info">
             <avatar
@@ -116,6 +118,7 @@
           class="comment-button"
           @click="addMessage($route.params.id, message)"
           type="primary"
+          :loading="commentLoading"
           >评论</el-button
         >
       </div>
@@ -146,7 +149,8 @@ export default {
       replyId: undefined,
       currentPage: 1,
       pageSize: 10,
-      total: 1
+      total: 1,
+      commentLoading: false
     };
   },
   components: {
@@ -165,7 +169,7 @@ export default {
     },
     toAddReply() {
       this.$refs.textarea.$el.scrollIntoView();
-      window.scrollTo(0, document.scrollTop + 80 + "px");
+      window.scrollTo(0, document.scrollTop + 80 + 40 + 50 + "px");
       this.$refs.textarea.focus();
     },
     toList() {
@@ -202,18 +206,23 @@ export default {
       if (!message) {
         this.$message.error("请输入回复内容");
       }
-      const params = {
-        message: this.message,
-        parentId,
-        level: 2 // 评论
-      };
-      const data = await this.$ajax({
-        url: this.$api.communication.add,
-        method: "post",
-        data: params
-      });
-      this.getMessageList();
-      this.message = "";
+      try {
+        this.commentLoading = true;
+        const params = {
+          message: this.message,
+          parentId,
+          level: 2 // 评论
+        };
+        const data = await this.$ajax({
+          url: this.$api.communication.add,
+          method: "post",
+          data: params
+        });
+        this.getMessageList();
+        this.message = "";
+      } finally {
+        this.commentLoading = false;
+      }
     },
     toDetail(item) {
       this.$router.push({
@@ -241,6 +250,14 @@ export default {
 </script>
 
 <style scoped>
+.sticky {
+  position: sticky;
+  top: 80px;
+  background: #fff;
+  margin: 20px 0 0;
+  width: 800px;
+  margin: 0 auto;
+}
 .communication-detail {
   /* background: #ebebeb; */
   padding: 20px 0;
@@ -250,9 +267,9 @@ export default {
   margin: 0 auto;
   /* background-color: #fff; */
 }
-.detail {
+/* .detail {
   padding: 20px 0 0;
-}
+} */
 .communicate {
   flex: 1;
   padding: 20px;
@@ -281,7 +298,7 @@ export default {
   padding: 1em;
   box-shadow: 0 0 3px 3px #fff;
   border-radius: 12px;
-  border-bottom: ;
+  /* border-bottom: ; */
 }
 .reply-list .author {
   color: #666;
@@ -293,6 +310,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #fafbfc;
 }
 .avatar {
   flex-shrink: 0;

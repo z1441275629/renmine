@@ -108,7 +108,7 @@ export default {
       ],
       currentPage: 1,
       pageSize: 10,
-      total: 1
+      total: 0
     };
   },
   methods: {
