@@ -57,6 +57,25 @@ const getCommentCount = async ({ parentId }) => {
   return count[0].total;
 };
 
+const getUserTodayAddCount = async ({ userId }) => {
+  let todayStart = new Date();
+  todayStart.setHours(0);
+  todayStart.setMinutes(0);
+  todayStart.setSeconds(0);
+  let todayEnd = new Date();
+  todayEnd.setHours(23);
+  todayEnd.setMinutes(59);
+  todayEnd.setSeconds(59);
+
+  const todayCountSql = `select 
+    count(*) as count
+    from message as m
+    where m.userId = ${userId} and m.parentId is null and m.time < ${+todayEnd} and m.time > ${+todayStart}
+  `;
+  const count = await db.q(todayCountSql);
+  return count[0].count;
+};
+
 const detail = async ({ id }) => {
   // let sql = `select
   //   m.message, m.parentId, m.id, m.time, m.title,
@@ -96,4 +115,5 @@ module.exports = {
   list,
   detail,
   getCommentCount,
+  getUserTodayAddCount,
 };

@@ -107,6 +107,11 @@ const isEmailExist = async (email) => {
   return await db.q("select * from users where email = ?", [email]);
 };
 
+// 修改密码
+const updatePassword = async ({ email, password }) => {
+  return await db.q("update users set password = ? where email = ?", [password, email]);
+};
+
 module.exports = {
   list,
   add,
@@ -115,4 +120,5 @@ module.exports = {
   detail,
   login,
   isEmailExist,
+  updatePassword,
 };

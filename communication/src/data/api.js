@@ -9,6 +9,7 @@ export default {
   user: {
     login: "/user/login",
     register: "/user/register",
+    updatePassword: "/user/updatePassword",
     detail: "/user/detail",
     list: "/user/list",
     add: "/user/add",

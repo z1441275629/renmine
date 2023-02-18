@@ -10,6 +10,7 @@ userRouter
   .get("/user/list", userController.list)
   .post("/user/login", userController.login)
   .post("/user/register", userController.register)
+  .post("/user/updatePassword", userController.updatePassword)
   .delete("/user/del", userController.del);
 
 module.exports = userRouter;

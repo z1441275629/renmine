@@ -1,6 +1,7 @@
 const config = require("../config");
 const nodeMailer = require("nodemailer");
 const storeInstance = require("../store");
+const { success, fail } = require("../utils/setResponse");
 
 // smtps://user%40gmail.com:pass@smtp.gmail.com
 // const transport = nodeMailer.createTransport("SMTP", {
@@ -47,13 +48,10 @@ module.exports = {
         });
       });
 
-      response.body = {
-        code: "0000",
-        msg: "发送成功",
-        data: info,
-      };
+      response.body = success(info, "发送成功");
     } catch (err) {
       console.log(222, err);
+      response.body = fail(err, "发送邮件失败", "5000");
     }
   },
 };

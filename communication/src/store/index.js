@@ -12,6 +12,7 @@ export default new Vuex.Store({
     userId: 0,
     showLogin: false,
     showRegister: false,
+    showUpdatePassword: false,
     redirect: null // 登录后前往地址
   },
   mutations: {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     setShowRegister(state, val) {
       state.showRegister = val;
+    },
+    setShowUpdatePassword(state, val) {
+      state.showUpdatePassword = val;
     },
     logout(state) {
       state.token = "";

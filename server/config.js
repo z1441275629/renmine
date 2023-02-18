@@ -1,16 +1,16 @@
-const path = require("path"); // 核心对象
+// const path = require("path"); // 核心对象
 module.exports = {
   //viewDir:path.resolve('./views'),
   //staticDir:path.resolve('./public'),
   appPort: 8888,
   // 本地
-  // dbConfig: {
-  //   connectionLimit: 10,
-  //   host: "localhost",
-  //   user: "root",
-  //   password: "root",
-  //   database: "renmine", // 得胜
-  // },
+  dbConfig: {
+    connectionLimit: 10,
+    host: "localhost",
+    user: "root",
+    password: "root",
+    database: "renmine", // 得胜
+  },
   // 华为
   // dbConfig: {
   //   connectionLimit: 10,
@@ -20,14 +20,14 @@ module.exports = {
   //   database: "renmine", // 得胜
   // },
   // aws
-  dbConfig: {
-    connectionLimit: 10,
-    host: "44.203.141.164",
-    port: "3303",
-    user: "root",
-    password: "zds123",
-    database: "renmine", // 得胜
-  },
+  // dbConfig: {
+  //   connectionLimit: 10,
+  //   host: "44.203.141.164",
+  //   port: "3303",
+  //   user: "root",
+  //   password: "zds123",
+  //   database: "renmine", // 得胜
+  // },
   successCode: "0000",
   successDesc: "成功",
 
@@ -50,5 +50,7 @@ module.exports = {
     user: "luxiguang9@gmail.com", //  发件人邮箱
     pass: "cddbsbooigwcpkpd", //  授权码
   },
-  from: "luxiguang9@gmail.com", // 发送邮箱
+  from: `"renmine"<luxiguang9@gmail.com>`, // 发送邮箱
+
+  dayAddMessageLimit: 3, // 用户每日发表消息上限
 };

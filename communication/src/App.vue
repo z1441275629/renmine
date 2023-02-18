@@ -7,17 +7,20 @@
 
     <login :visible.sync="loginVisible"></login>
     <register :visible.sync="registerVisible"></register>
+    <update-password :visible.sync="updatePasswordVisible"></update-password>
   </div>
 </template>
 
 <script>
 import login from "@/components/login.vue";
 import register from "@/components/regist.vue";
+import updatePassword from "@/components/updatePassword.vue";
 export default {
   name: "App",
   components: {
     login,
-    register
+    register,
+    updatePassword
   },
   computed: {
     loginVisible: {
@@ -34,6 +37,14 @@ export default {
       },
       set(val) {
         this.$store.commit("setShowRegister", val);
+      }
+    },
+    updatePasswordVisible: {
+      get() {
+        return this.$store.state.showUpdatePassword;
+      },
+      set(val) {
+        this.$store.commit("setShowUpdatePassword", val);
       }
     }
   }

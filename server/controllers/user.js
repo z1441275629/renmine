@@ -49,7 +49,7 @@ const c = {
     };
   },
   async register(ctx) {
-    const { request, response, verifyParams } = ctx;
+    const { request, response } = ctx;
     ctx.verifyParams({
       name: { type: "string", required: true },
       email: { type: "email", required: true },
@@ -95,6 +95,29 @@ const c = {
       } else {
         response.body = fail(null, "账号或密码错误", "4000");
       }
+    } catch (err) {
+      response.body = fail(err, "服务器异常");
+    }
+  },
+  async updatePassword(ctx) {
+    const { request, response } = ctx;
+    ctx.verifyParams({
+      email: { type: "email", required: true },
+      password: { type: "string", required: true },
+      code: { type: "string", required: true },
+    });
+    try {
+      let { email, password, code } = request.body;
+      if (!record.get(email)) {
+        response.body = fail(null, "请先获取验证码");
+        return;
+      }
+      if (record.get(email) !== code) {
+        response.body = fail(null, "验证码错误");
+        return;
+      }
+      const res = await userModels.updatePassword({ email, password });
+      response.body = success(res, "密码更新成功");
     } catch (err) {
       response.body = fail(err, "服务器异常");
     }

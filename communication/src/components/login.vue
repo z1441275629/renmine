@@ -16,6 +16,7 @@
           v-model="form.email"
           clearable
           placeholder="请输入邮箱或者账户名"
+          @keyup.enter.native="clickLogin"
         ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
@@ -24,13 +25,17 @@
           clearable
           placeholder="请输入密码"
           type="password"
+          @keyup.enter.native="clickLogin"
         ></el-input>
       </el-form-item>
-      <el-form-item label="" prop="">
+      <div class="btns">
         <el-button @click.native="clickLogin" type="primary">登录</el-button>
         <el-button @click.native="toRegister" type="primary">去注册</el-button>
+        <el-button @click.native="clickForgetPassword" type="primary"
+          >忘记密码</el-button
+        >
         <!-- <el-button @click.native="goBack">返回</el-button> -->
-      </el-form-item>
+      </div>
     </el-form>
   </div>
   <!-- </el-dialog> -->
@@ -77,6 +82,11 @@ export default {
       // this.$router.push({ name: "regist", query: this.$route.query });
       this.show = false;
       this.$store.commit("setShowRegister", true);
+    },
+    clickForgetPassword() {
+      // this.$router.push({ name: "regist", query: this.$route.query });
+      this.show = false;
+      this.$store.commit("setShowUpdatePassword", true);
     },
     login() {
       this.$ajax({
@@ -148,5 +158,10 @@ export default {
 h2 {
   text-align: center;
   margin-bottom: 10px;
+}
+.btns {
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 </style>
