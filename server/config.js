@@ -4,13 +4,14 @@ module.exports = {
   //staticDir:path.resolve('./public'),
   appPort: 8888,
   // 本地
-  dbConfig: {
-    connectionLimit: 10,
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "renmine", // 得胜
-  },
+  // dbConfig: {
+  //   connectionLimit: 10,
+  //   host: "localhost",
+  //   port: "3303",
+  //   user: "root",
+  //   password: "root",
+  //   database: "renmine", // 得胜
+  // },
   // 华为
   // dbConfig: {
   //   connectionLimit: 10,
@@ -20,14 +21,14 @@ module.exports = {
   //   database: "renmine", // 得胜
   // },
   // aws
-  // dbConfig: {
-  //   connectionLimit: 10,
-  //   host: "44.203.141.164",
-  //   port: "3303",
-  //   user: "root",
-  //   password: "zds123",
-  //   database: "renmine", // 得胜
-  // },
+  dbConfig: {
+    connectionLimit: 10,
+    host: "localhost", // 44.203.141.164
+    port: "3303", // 用docker启动的MySQL，docker监听的3303端口，然后转到3306的
+    user: "root",
+    password: "zds123",
+    database: "renmine", // 得胜
+  },
   successCode: "0000",
   successDesc: "成功",
 
